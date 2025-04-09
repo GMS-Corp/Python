@@ -4,18 +4,24 @@ import os
 import pandas as pd
 
 # Diretório onde estão os arquivos CSV
-diretorio = r"\\10.110.160.15\consinco-arquivos\plusoft"
+diretorio = r"C:\Users\giuliano.gomes\Desktop\Ext_CRM_Pessoa_v2"
 
 # Loop para percorrer todos os arquivos no diretório
 for arquivo in os.listdir(diretorio):
     if arquivo.startswith("Ext_") and arquivo.endswith(".csv"):  # Filtra apenas os arquivos desejados
-        caminho_csv = os.path.join(diretorio, arquivo)  # Caminho completo do arquivo CSV
+        caminho_csv = os.path.join(diretorio, arquivo) 
 
         print(f"Convertendo: {arquivo}...")
 
         try:
             # Lê o CSV
-            df = pd.read_csv(caminho_csv, delimiter=";", low_memory=False)
+            df = pd.read_csv(
+                caminho_csv, 
+                delimiter=";", 
+                encoding="latin1",  # Alterado para maior compatibilidade
+                engine="python",  # Usa o motor Python para evitar buffer overflow
+                on_bad_lines="skip"  # Ignora linhas problemáticas
+            )
 
             # Verifica se a coluna DATVENDA existe
             if 'DATVENDA' in df.columns:
