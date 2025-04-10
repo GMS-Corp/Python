@@ -1,3 +1,4 @@
+# Le as linhas do Parquet que contem caractere especial e retorna a linha anterior 
 import pandas as pd
 import re
 
