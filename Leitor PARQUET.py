@@ -1,8 +1,12 @@
-# Le e checka os valores/colunas do PARQUET
-
 import os
 import pandas as pd
 
-df = pd.read_parquet(r"\\10.110.160.15\consinco-arquivos\plusoft\2_Ext_v3_Vda_ABR_2023.parquet")
+# Lê o arquivo Parquet
+df = pd.read_parquet(r"C:\Users\giuliano.gomes\Desktop\pasta\Ext_CRM_Pessoa_Full.parquet")
 print(df.dtypes)
-print(df.head())
+# Filtra onde IDPESSOA é igual a um valor específico, por exemplo 12345
+id_desejado = "51410065812"
+resultado = df.loc[df["IDPESSOA"] == id_desejado, ["IDUNICO", "TXTNOMECOMPLETO", "DTAPRIMCOMPRA", "DTAULTCOMPRA"]]
+
+# Exibe a linha filtrada
+print(resultado)
