@@ -23,7 +23,8 @@ for arquivo in os.listdir(diretorio):
                 engine="python",  # Usa o motor Python para evitar buffer overflow
                 on_bad_lines="skip"  # Ignora linhas problemáticas
             )
-            print(df[['DTAPRIMCOMPRA', 'DTAULTCOMPRA']].head(10)) #So pra checar o formato antes
+            print(df[['DTAPRIMCOMPRA', 'DTAULTCOMPRA', 'DATNASCIMENTO']].head(10))
+
 
             # Verifica se a coluna DATVENDA existe
             if 'DTAPRIMCOMPRA' in df.columns:
@@ -32,6 +33,10 @@ for arquivo in os.listdir(diretorio):
             if 'DTAULTCOMPRA' in df.columns:
                 # Converte para datetime e mantém o formato UTC
                 df['DTAULTCOMPRA'] = pd.to_datetime(df['DTAULTCOMPRA'], format='%d-%b-%y', errors='coerce')
+            if 'DATNASCIMENTO' in df.columns:
+                # Converte para datetime e mantém o formato UTC
+                df['DATNASCIMENTO'] = pd.to_datetime(df['DATNASCIMENTO'], format='%d-%b-%y', errors='coerce')
+                df.loc[df["DATNASCIMENTO"] > pd.Timestamp.today(), "DATNASCIMENTO"] -= pd.DateOffset(years=100)
 
             # Define o nome do arquivo Parquet
             nome_parquet = arquivo.replace(".csv", ".parquet")
