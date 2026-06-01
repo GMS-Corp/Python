@@ -2,7 +2,7 @@ import os
 import glob
 import shutil
 
-base_path = r"\\[diretorio]"
+base_path = r"\\[[diretorio]]\cupons"
 
 sat_folders = glob.glob(os.path.join(base_path, "sat_store_*"))
 
@@ -16,6 +16,23 @@ for sat_path in sat_folders:
     # Criar pastas
     os.makedirs(ent_folder, exist_ok=True)
     os.makedirs(saida_folder, exist_ok=True)
+
+    print(f"\nProcessando loja {num}")
+
+    # =============================
+    # LIMPAR DESTINOS
+    # =============================
+    for folder in [ent_folder, saida_folder]:
+        for item in os.listdir(folder):
+            path = os.path.join(folder, item)
+
+            try:
+                if os.path.isfile(path) or os.path.islink(path):
+                    os.unlink(path)      # remove arquivo
+                elif os.path.isdir(path):
+                    shutil.rmtree(path) # remove subpasta
+            except Exception as e:
+                print(f"Erro ao remover {path}: {e}")
 
     print(f"\nProcessando loja {num}")
 
